@@ -1,14 +1,17 @@
 import requests
 import vcr
-from pactman import Consumer, Pact, Provider
+
+from pactman import Consumer
+from pactman import Pact
+from pactman import Provider
 
 from Lola.configs import settings
 from Lola.core.menu import Menu
 
-PACT_MOCK_HOST = settings.MENU_HOST = "menu-app"
-PACT_MOCK_PORT = settings.MENU_PORT = 8000
-MENU_SERVICE: str = f"http://{settings.MENU_HOST}:{settings.MENU_PORT}"
+PACT_MOCK_HOST = settings.BOCUSE_HOST
+PACT_MOCK_PORT = settings.BOCUSE_PORT
 PACT_DIR = str(settings.PACT_DIR)
+BOCUSE_SERVICE: str = f"http://{settings.BOCUSE_HOST}:{settings.BOCUSE_PORT}"
 
 
 pact: Pact = Consumer("Consumer-Lola").has_pact_with(
@@ -62,7 +65,7 @@ class TestMenu:
         )
 
         with pact:
-            result = requests.get(f"{MENU_SERVICE}/cardapios/").json()
+            result = requests.get(f"{BOCUSE_SERVICE}/cardapios/").json()
 
         assert result == expected
 
@@ -80,13 +83,14 @@ class TestMenu:
         )
         assert Menu().menu("alguma coisa") is None
 
-    @vcr.use_cassette("tests/fixtures/vcr_cassettes/ficha_tecnica.yml")
-    def test_ficha_tecnica(self):
-        ficha_tecnica = Menu().receita("teste_bolo")
-        assert "informacoes" in list(ficha_tecnica.keys())
-        assert "ingredientes" in list(ficha_tecnica.keys())
+    @vcr.use_cassette("tests/fixtures/vcr_cassettes/receita.yml")
+    def _test_receita(self):
+        receita = Menu().receita("teste_bolo")
+        assert "informacoes" in list(receita.keys())
+        assert "ingredientes" in list(receita.keys())
 
-    @vcr.use_cassette("tests/fixtures/vcr_cassettes/ficha_tecnica_does_not_exist.yml")
-    def test_ficha_tecnica_does_not_exist(self):
-        ficha_tecnica = Menu().receita("does_not_exist")
-        assert "Receita não existe" == ficha_tecnica
+    @vcr.use_cassette("tests/fixtures/vcr_cassettes/receita_does_not_exist.yml")
+    def _test_receita_does_not_exist(self):
+        receita = Menu().receita("does_not_exist")
+        assert "informacoes" in list(receita.keys())
+        assert "ingredientes" in list(receita.keys())

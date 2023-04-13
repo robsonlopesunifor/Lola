@@ -41,4 +41,4 @@ services:
 networks: 
   back:
     external:
-      name: back-menu
+      name: back-bocuse

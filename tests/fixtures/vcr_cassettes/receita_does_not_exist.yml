@@ -11,20 +11,20 @@ interactions:
       User-Agent:
       - python-requests/2.28.2
     method: GET
-    uri: http://menu-app:8000/ficha_tecnica/does_not_exist
+    uri: http://bocuse-app:8000/receita/error
   response:
     body:
-      string: Internal Server Error
+      string: '{"detail":"FichaTecnica Not found"}'
     headers:
       content-length:
-      - '21'
+      - '35'
       content-type:
-      - text/plain; charset=utf-8
+      - application/json
       date:
-      - Wed, 29 Mar 2023 18:36:48 GMT
+      - Thu, 13 Apr 2023 14:34:32 GMT
       server:
       - uvicorn
     status:
-      code: 500
-      message: Internal Server Error
+      code: 404
+      message: Not Found
 version: 1

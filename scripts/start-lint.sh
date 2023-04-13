@@ -2,7 +2,6 @@
 
 # Project Folders
 TARGET_FOLDERS="."
-MAX_ACCEPTABLE_COMPLEXITY=6
 
 # Run Tools
 echo "Running isort" && \

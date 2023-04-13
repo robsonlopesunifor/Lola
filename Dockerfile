@@ -36,6 +36,6 @@ COPY --chown=appuser --from=builder /app/requirements.txt .
 
 RUN pip install --no-cache /wheels/*
 
-USER appuser
+# USER appuser
 
 
