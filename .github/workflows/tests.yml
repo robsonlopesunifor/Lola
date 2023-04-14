@@ -1,0 +1,24 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🍽️ Get working copy
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: 'Create env file'
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+      - name: 🛠 Build project
+        run: docker-compose build --no-cache tests
+      - name: 🚀 Tests
+        run: docker-compose up --exit-code-from tests tests
