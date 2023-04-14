@@ -1,9 +1,6 @@
 import pathlib
-import sys
 
 from pydantic import BaseSettings
-
-sys.path.append("/app")
 
 
 class Settings(BaseSettings):
