@@ -19,7 +19,8 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
       - name: 🛠 Build project
-        run: docker network create back-bocuse
-        run: docker-compose build --no-cache lint
+        run: |
+          docker network create back-bocuse
+          docker-compose build --no-cache lint
       - name: 🔬 Check code Style
         run: docker-compose up --exit-code-from lint lint

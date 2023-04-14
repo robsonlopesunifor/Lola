@@ -19,7 +19,8 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
       - name: 🛠 Build project
-        run: docker-compose build --no-cache tests
+        run: |
+          docker network create back-bocuse
+          docker-compose build --no-cache tests
       - name: 🚀 Tests
-        run: docker network create back-bocuse
         run: docker-compose up --exit-code-from tests tests
