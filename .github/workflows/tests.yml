@@ -18,9 +18,9 @@ jobs:
       - name: 'Create env file'
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
-        environment:
-          BOCUSE_HOST: BOCUSE_HOST
-          BOCUSE_PORT: BOCUSE_PORT
+          echo "$BOCUSE_HOST"
+          echo "${{env.BOCUSE_HOST}}"
+          echo "${{env.ENV_FILE}}"
       - name: 🛠 Build project
         run: |
           docker network create back-bocuse
